@@ -1,4 +1,4 @@
-# %%
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -8,10 +8,6 @@ import pandas as pd
 import numpy as np
 import random
 
-torch.cuda.set_device(5)
-
-# %%
-## 数据读取
 
 def read(data_file):
     proteins=open(f"data/{data_file}","r").readlines()
@@ -58,7 +54,7 @@ for i in tests:
 
 
 
-# %%
+
 class ScaledDotProductAttention(nn.Module):
     """ Scaled Dot-Product Attention """
     def __init__(self, scale):
@@ -140,7 +136,7 @@ class TransformerLayer(nn.Module):
         return v
 
 
-# %%
+
 from sklearn.metrics import roc_curve, mean_squared_error, r2_score, precision_score, recall_score, f1_score, roc_auc_score, accuracy_score
 from sklearn.metrics import confusion_matrix, matthews_corrcoef
 import numpy as np
@@ -202,7 +198,7 @@ def testwithtrain(model):
     return acc, pre, sen, spe, f1, mcc, auc
 
 
-# %%
+
 num_node_features=1280
 Hidden_feature,lr,batch_size=256,0.0005,8
 
@@ -268,7 +264,7 @@ models=[]
 
 
 
-# %%
+
 import copy
 
 for epochs in range(40):
@@ -294,18 +290,3 @@ for epochs in range(40):
             index=0
 
         index+=1
-    print(len(models),":",end="")
-    res_test=testwithtrain(model)
-    models.append(copy.deepcopy(model))
-
-# %%
-#acc, pre, sen, spe, f1, mcc, auc
-98.2&98.2&96.3&99.6
-
-# %%
-res_test=testwithtrain(models[-1])
-
-# %%
-torch.save(models[-1].cpu(), 'model_98.2.pth')
-
-

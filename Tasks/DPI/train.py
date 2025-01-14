@@ -1,4 +1,3 @@
-# %%
 # -*- coding: utf-8 -*-
 
 import torch
@@ -47,7 +46,7 @@ def split_dataset(dataset, ratio):
 
 
 
-# %%
+
 SEED = 1
 random.seed(SEED)
 torch.manual_seed(SEED)
@@ -77,10 +76,10 @@ dataset_dev, dataset_test = split_dataset(dataset_2, 0.5)
 
 
 
-# %%
 
 
-# %%
+
+
 import math
 import numpy as np
 from sklearn.metrics import roc_auc_score, precision_score, recall_score
@@ -556,7 +555,7 @@ class Tester(object):
     def save_model(self, model, filename):
         torch.save(model.state_dict(), filename)
 
-# %%
+
 """ create model ,trainer and tester """
 protein_dim = 640
 atom_dim = 34
@@ -616,7 +615,7 @@ for epoch in range(1, iteration+1):
     print('\t'.join(map(str, AUCs)))
 print("The best model is epoch",epoch_label)
 
-# %%
+
 #torch.save(models[10].cpu(), 'model_97.6.pth')
 
 

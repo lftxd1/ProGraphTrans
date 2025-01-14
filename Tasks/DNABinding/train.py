@@ -1,4 +1,4 @@
-# %%
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -6,140 +6,103 @@ from torch_geometric.nn import GCNConv,GATConv
 from torch_geometric.data import Data
 import pandas as pd
 import numpy as np
-
-# %%
-torch.cuda.set_device(7)
-
-# %%
-# def read():
-#     proteins=open("PDB14189/PDB14189_P.txt","r").readlines()
-#     res=[]
-#     for i in range(0,len(proteins),2):
-#         name=proteins[i][1:-1]
-#         seq=proteins[i+1]
-#         #if name not in names:
-#         # if len(seq)>1000:
-#         #     seq=seq[0:1000]
-#         res.append((name,1))
-#     return res
-
-
-# train_data=read()
-# train_graphs=[]
-# for index,(name,label) in enumerate(train_data):
-
-#     vec=torch.from_numpy(np.load(f"PDB14189/feature/{name}.npy")).float()[1:-1,:]
-#     edge_matrix=torch.from_numpy(np.load(f"PDB14189/map/{name}.npy")).float()
-
-#     row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
-
-
-#     edge = [row.tolist(), col.tolist()]
-
-#     edge_index=torch.from_numpy(np.array(edge)).long()
-    
-#     label=torch.tensor(label).float()
-#     data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
-#     train_graphs.append(data)
-
-# %%
-# def read():
-#     proteins=open("PDB14189/PDB14189_N.txt","r").readlines()
-#     res=[]
-#     for i in range(0,len(proteins),2):
-#         name=proteins[i][1:-1]
-#         seq=proteins[i+1]
-#         #if name not in names:
-#         # if len(seq)>1000:
-#         #     seq=seq[0:1000]
-#         res.append((name,0))
-#     return res
-
-
-# train_data=read()
-
-# for index,(name,label) in enumerate(train_data):
-
-#     vec=torch.from_numpy(np.load(f"PDB14189/feature/{name}.npy")).float()[1:-1,:]
-#     edge_matrix=torch.from_numpy(np.load(f"PDB14189/map/{name}.npy")).float()
-
-#     row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
-
-
-#     edge = [row.tolist(), col.tolist()]
-
-#     edge_index=torch.from_numpy(np.array(edge)).long()
-    
-#     label=torch.tensor(label).float()
-#     data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
-#     train_graphs.append(data)
-    
-
-# %%
-# test_graphs=[]
-# def read():
-#     proteins=open("PDB2272/PDB2272_N.txt","r").readlines()
-#     res=[]
-#     for i in range(0,len(proteins),2):
-#         name=proteins[i][1:-1]
-#         seq=proteins[i+1]
-#         res.append((name,0))
-#     return res
-
-# test_data=read()
-# test_graphs=[]
-# for index,(name,label) in enumerate(test_data):
-    
-#     vec=torch.from_numpy(np.load(f"PDB2272/feature/{name}.npy")).float()[1:-1,:]
-#     edge_matrix=torch.from_numpy(np.load(f"PDB2272/map/{name}.npy")).float()
-
-#     row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
-
-
-#     edge = [row.tolist(), col.tolist()]
-
-#     edge_index=torch.from_numpy(np.array(edge)).long()
-    
-#     label=torch.tensor(label).float()
-#     data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
-#     test_graphs.append(data)
-
-
-# %%
-
-# def read():
-#     proteins=open("PDB2272/PDB2272_P.txt","r").readlines()
-#     res=[]
-#     for i in range(0,len(proteins),2):
-#         name=proteins[i][1:-1]
-#         seq=proteins[i+1]
-#         res.append((name,1))
-#     return res
-
-# test_data=read()
-
-# for index,(name,label) in enumerate(test_data):
-#     vec=torch.from_numpy(np.load(f"PDB2272/feature/{name}.npy")).float()[1:-1,:]
-#     edge_matrix=torch.from_numpy(np.load(f"PDB2272/map/{name}.npy")).float()
-
-#     row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
-#     edge = [row.tolist(), col.tolist()]
-#     edge_index=torch.from_numpy(np.array(edge)).long()
-    
-#     label=torch.tensor(label).float()
-#     data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
-#     test_graphs.append(data)
-
-
-# %%
 import pickle,random
-train_graphs=pickle.load(open("DNAbing_train","rb"))
-test_graphs=pickle.load(open("DNAbing_test","rb"))
+
+def read():
+    proteins=open("PDB14189/PDB14189_P.txt","r").readlines()
+    res=[]
+    for i in range(0,len(proteins),2):
+        name=proteins[i][1:-1]
+        seq=proteins[i+1]
+        #if name not in names:
+        # if len(seq)>1000:
+        #     seq=seq[0:1000]
+        res.append((name,1))
+    return res
+
+train_data=read()
+train_graphs=[]
+for index,(name,label) in enumerate(train_data):
+    vec=torch.from_numpy(np.load(f"PDB14189/feature/{name}.npy")).float()[1:-1,:]
+    edge_matrix=torch.from_numpy(np.load(f"PDB14189/map/{name}.npy")).float()
+    row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
+    edge = [row.tolist(), col.tolist()]
+    edge_index=torch.from_numpy(np.array(edge)).long()
+    label=torch.tensor(label).float()
+    data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
+    train_graphs.append(data)
+
+
+def read():
+    proteins=open("PDB14189/PDB14189_N.txt","r").readlines()
+    res=[]
+    for i in range(0,len(proteins),2):
+        name=proteins[i][1:-1]
+        seq=proteins[i+1]
+        #if name not in names:
+        # if len(seq)>1000:
+        #     seq=seq[0:1000]
+        res.append((name,0))
+    return res
+
+train_data=read()
+
+for index,(name,label) in enumerate(train_data):
+
+    vec=torch.from_numpy(np.load(f"PDB14189/feature/{name}.npy")).float()[1:-1,:]
+    edge_matrix=torch.from_numpy(np.load(f"PDB14189/map/{name}.npy")).float()
+    row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
+    edge = [row.tolist(), col.tolist()]
+    edge_index=torch.from_numpy(np.array(edge)).long()
+    label=torch.tensor(label).float()
+    data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
+    train_graphs.append(data)
+    
+test_graphs=[]
+def read():
+    proteins=open("PDB2272/PDB2272_N.txt","r").readlines()
+    res=[]
+    for i in range(0,len(proteins),2):
+        name=proteins[i][1:-1]
+        seq=proteins[i+1]
+        res.append((name,0))
+    return res
+
+test_data=read()
+test_graphs=[]
+for index,(name,label) in enumerate(test_data):
+    vec=torch.from_numpy(np.load(f"PDB2272/feature/{name}.npy")).float()[1:-1,:]
+    edge_matrix=torch.from_numpy(np.load(f"PDB2272/map/{name}.npy")).float()
+    row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
+    edge = [row.tolist(), col.tolist()]
+    edge_index=torch.from_numpy(np.array(edge)).long()
+    label=torch.tensor(label).float()
+    data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
+    test_graphs.append(data)
+
+def read():
+    proteins=open("PDB2272/PDB2272_P.txt","r").readlines()
+    res=[]
+    for i in range(0,len(proteins),2):
+        name=proteins[i][1:-1]
+        seq=proteins[i+1]
+        res.append((name,1))
+    return res
+
+test_data=read()
+for index,(name,label) in enumerate(test_data):
+    vec=torch.from_numpy(np.load(f"PDB2272/feature/{name}.npy")).float()[1:-1,:]
+    edge_matrix=torch.from_numpy(np.load(f"PDB2272/map/{name}.npy")).float()
+    row, col = np.where((edge_matrix >= 0.5) & (np.eye(edge_matrix.shape[0]) == 0))
+    edge = [row.tolist(), col.tolist()]
+    edge_index=torch.from_numpy(np.array(edge)).long()
+    label=torch.tensor(label).float()
+    data=Data(x=vec,edge_index=edge_index,y=label,edge_matrix=edge_matrix)
+    test_graphs.append(data)
 
 random.seed(1234)
 random.shuffle(train_graphs)
 
-# %%
 class ScaledDotProductAttention(nn.Module):
     """ Scaled Dot-Product Attention """
     def __init__(self, scale):
@@ -221,67 +184,12 @@ class TransformerLayer(nn.Module):
         return v
 
 
-# %%
-
 from sklearn.metrics import roc_curve,mean_squared_error, r2_score, precision_score, recall_score, f1_score, roc_auc_score, accuracy_score
 from sklearn.metrics import confusion_matrix, accuracy_score, matthews_corrcoef
 import numpy as np
 import matplotlib.pyplot as plt
 
-def testwithtrain(model,test_data):
-    #global logs
-    model.eval()
-    true_labels = []
-    predicted_probs = []
-    correct=0
-    sums=0
-    #model=model.cpu()
-    with torch.no_grad():
-        for data in test_data:
-            data = data.cuda()
-            out = model(data)
-            sums+=1
-            if out[0]<0.5 and data.y<0.5:
-                correct+=1
-            if out[0]>=0.5 and data.y>=0.5:
-                correct+=1
 
-            true_labels.append(data.y.cpu().numpy())
-            predicted_probs.append(out.cpu().numpy())
-            
-    #model=model.cuda()
-    true_labels = np.array(true_labels).flatten()
-    predicted_probs = np.array(predicted_probs).flatten()
-
-    predicted_labels = (predicted_probs >= 0.5).astype(int)
-
-    # 计算混淆矩阵中的 TN, FP, FN, TP
-    tn, fp, fn, tp = confusion_matrix(true_labels, predicted_labels).ravel()
-
-    # 计算准确性 (Accuracy, ACC)
-    acc = accuracy_score(true_labels, predicted_labels)
-
-    # 计算敏感性 (Sensitivity, Sen)
-    sen = tp / (tp + fn)
-
-    # 计算特异性 (Specificity, Spe)
-    spe = tn / (tn + fp)
-
-    # 计算 Matthew 相关系数 (Matthew's Correlation Coefficient, MCC)
-    mcc = matthews_corrcoef(true_labels, predicted_labels)
-
-    print(f'ACC: {acc}',end="|")
-    print(f'Sen: {sen}',end="|")
-    print(f'Spe: {spe}',end="|")
-    print(f'MCC: {mcc}')
-
-    return acc,sen,spe,mcc
-
-
-# %%
-
-
-# %%
 import random
 class GCN(nn.Module):
     def __init__(self):
@@ -317,14 +225,14 @@ class GCN(nn.Module):
         x=torch.sigmoid(x)
         return x
 
-# %%
+
 for data in train_graphs:
     data=data.cuda()
     
 for data in test_graphs:
     data=data.cuda()
 
-# %%
+
 import copy
 
 num_node_features=640
@@ -341,7 +249,7 @@ models=[]
 model_list=[]
 
 
-# %%
+
 for epochs in range(20):
     optimizer.zero_grad()
     losses=0
@@ -359,24 +267,6 @@ for epochs in range(20):
             optimizer.step()
             optimizer.zero_grad()
             index=0
-        if idx%1000==0:
-            print(idx,end="|")
         index+=1
-    print("Test:",epochs)
-    res_test=testwithtrain(model,test_graphs)
-    model_list.append(copy.deepcopy(model))
-
-# %%
-save_model=model_list[5]
-testwithtrain(save_model,test_graphs)
-
-# %%
-torch.save(save_model.state_dict(), 'model_weights.pth')
-
-# %%
-# import pickle
-# weight=pickle.load(open("DNAbinding.model",'rb'))
-# model.load_state_dict(weight)
-# res_test=testwithtrain(model,test_graphs)
 
 
