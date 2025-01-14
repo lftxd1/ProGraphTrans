@@ -4,7 +4,7 @@
 
 Proteins are essential biomolecules that regulate virtually all biological processes. Determining their function based solely on their sequence remains a significant challenge in bioinformatics. Recent advances have led to the development of models like ESM-2, which learn protein representations to assist in various bioinformatics tasks. However, most current methods focus primarily on sequence information, often neglecting the structural characteristics of proteins.
 
-In this paper, we introduce **ProGraphTrans**, a novel approach that combines Graph Neural Networks (GNNs) with Transformers to enhance protein representation learning by integrating both sequence and structural features. Our method leverages ESM-2 embeddings and amino acid contact profiles to build richer representations, improving the performance of protein-related tasks.
+We introduce **ProGraphTrans**, a novel approach that combines Graph Neural Networks (GNNs) with Transformers to enhance protein representation learning by integrating both sequence and structural features. Our method leverages ESM-2 embeddings and amino acid contact profiles to build richer representations, improving the performance of protein-related tasks.
 
 ## Requirements
 
